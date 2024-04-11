@@ -9,7 +9,7 @@ let vueApp = new Vue({
         connected: false,
         // ros connection
         ros: null,
-        rosbridge_address: 'wss://i-0fbc53bc25a506109.robotigniteacademy.com/a1def12e-7149-4e32-a21c-5efe8c77bf1a/rosbridge/', // change to your own address
+        rosbridge_address: 'wss://i-0123456789.robotigniteacademy.com/rosbridge/', // change to your own address
         // dragging data
         dragging: false,
         x: 'no',
@@ -247,6 +247,5 @@ let vueApp = new Vue({
         // page is ready
         console.log('Control page is ready!')
         window.addEventListener('mouseup', this.stopDrag)
-        this.connect()
     },
 })
