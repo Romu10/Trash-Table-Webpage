@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+<!DOCTYPE htmlscript>
 <html>
   <head>
+    <link rel="icon" href="./public/Turtlebot-4.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -8,9 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="home.css">
-    <title>ROS Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Java library-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <!-- ROS library-->
+    <script src="https://s3.eu-west-1.amazonaws.com/rosject.io/js/roslib.min.js"></script>
+    <script type="text/javascript">
+        console.log("Welcome to TrashBot Control")
+    </script>
+
+    <title>TrashBot Control</title>
   </head>
-  <body>
+  <main id="robotState">
     <div class="header">
       <div class="Nav">
         <div class="NavItems2">
@@ -26,47 +36,70 @@
         <div class="contentcontrols">
           <div class="wrapper-progressBar">
             <ul class="progressBar">              
-              <li class="active">
-                <div class="progressNumber">
-                  <h3>1</h3>
+              <li>
+                <div class="progressNumber" :style="progressNumber">
+                  <h3 :style="progressNumberh3">1</h3>
                 </div>
-                <h4>Beong Processed</h4>
+                <h4 :style="progressNumberh4">Looking for Table</h4>
               </li>
-              <li class="inactive">
-                <div class="progressNumber">
-                  <h3>2</h3>
+              <li>
+                <div class="progressNumber" :style="progressNumberMoveTable">
+                  <h3 :style="progressNumberMoveTableh3">2</h3>
                 </div>
-                <h4>Waiting for payment</h4>
+                <h4 :style="progressNumberMoveTableh4">Move Table</h4>
               </li>
-              <li class="inactive">
-                <div class="progressNumber">
-                  <h3>3</h3>
+              <li>
+                <div class="progressNumber" :style="progressNumberReady">
+                  <h3 :style="progressNumberReadyh3">3</h3>
                 </div>
-                <h4>Paid</h4>
+                <h4 :style="progressNumberReadyh4">Table Ready</h4>
               </li>
             </ul>
           </div>
         </div>
         <div class="controlsactions">
           <div class="acciones">
-            <h3>Acciones</h3>
+            <h3>Actions</h3>
             <div class="botones">
-              <button class="boton1">Cancelar</button>
-              <button class="boton2">Pagar</button>
+              <button class="boton1" @click="changeContentJoystick">Start</button>
+              <button class="boton2" :style="stopButton" @click="changeContentStopped">Stop</button>
+              <button class="boton2" @click="changeContentOperating">Operate</button>
+            </div>
+          </div>
+          <div class="joystick">
+            <h3>{{ informations }}</h3>
+            <div class="joystickaction" :style="joystickcont">
+                <div id="dragstartzone" @mousedown="startDrag" @mousemove="doDrag"></div>
+                <div id="dragCircle" :style="dragCircleStyle"></div>
+            </div>
+            <div class="logsCont"  :style="logsCont">
+                <p>{{ informations }}</p>
             </div>
           </div>
           <div class="acciones">
-            <h3>Acciones</h3>
-            <div class="joystickaction">
-
-            </div>
-          </div>
-          <div class="acciones">
-            <h3>Estado</h3>
-            <img src="./public/complete.svg" alt="">
-            <p>Completado</p>
+            <h3>State</h3>
+            <img src="./public/stopped.svg" :style="imgstopped" alt="">
+            <img src="./public/loading.svg" :style="imgloading" id="loading" alt="">
+            <img src="./public/complete.svg" :style="imgcomplete" alt="">
+            <img src="./public/manual.svg" :style="imgmanual" alt="">
+            <p>{{ robot_state }}</p>
           </div>
         </div>
     </div>
-  </body>
+
+    <!-- importing control.js -->
+    <script type="text/javascript">
+        // We could have loaded main.js simply with:
+        //  <script type="text/javascript" src="main.js">
+        //
+        // BUT we were having caching-related problems.
+        // Loading main.js with a Date.now() in the URL we avoid using cache
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'control.js?v=2.' + Date.now();
+        document.head.appendChild(script);
+    </script>
+
+  </main>
 </html>
